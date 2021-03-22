@@ -6,8 +6,8 @@ namespace MyMLAppML.Model
 {
     public class ModelInput
     {
-        [ColumnName("Sentiment"), LoadColumn(0)]
-        public string Sentiment { get; set; }
+        [ColumnName("FSentiment"), LoadColumn(0)]
+        public string FSentiment { get; set; }
 
 
         [ColumnName("SentimentText"), LoadColumn(1)]

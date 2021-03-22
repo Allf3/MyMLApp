@@ -7,7 +7,6 @@ using System.Linq;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using MyMLAppML.Model;
-using Microsoft.ML.Trainers;
 
 namespace MyMLAppML.ConsoleApp
 {
@@ -45,13 +44,13 @@ namespace MyMLAppML.ConsoleApp
         public static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations 
-            var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("Sentiment", "Sentiment")
+            var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("FSentiment", "FSentiment")
                                       .Append(mlContext.Transforms.Text.FeaturizeText("SentimentText_tf", "SentimentText"))
                                       .Append(mlContext.Transforms.CopyColumns("Features", "SentimentText_tf"))
                                       .Append(mlContext.Transforms.NormalizeMinMax("Features", "Features"))
                                       .AppendCacheCheckpoint(mlContext);
             // Set the training algorithm 
-            var trainer = mlContext.MulticlassClassification.Trainers.LbfgsMaximumEntropy(new LbfgsMaximumEntropyMulticlassTrainer.Options() { L2Regularization = 0.4977039f, L1Regularization = 0.2094219f, OptimizationTolerance = 0.0001f, HistorySize = 50, MaximumNumberOfIterations = 917380540, InitialWeightsDiameter = 0.5966631f, DenseOptimizer = false, LabelColumnName = "Sentiment", FeatureColumnName = "Features" })
+            var trainer = mlContext.MulticlassClassification.Trainers.OneVersusAll(mlContext.BinaryClassification.Trainers.LinearSvm(labelColumnName: "FSentiment", featureColumnName: "Features"), labelColumnName: "FSentiment")
                                       .Append(mlContext.Transforms.Conversion.MapKeyToValue("PredictedLabel", "PredictedLabel"));
 
             var trainingPipeline = dataProcessPipeline.Append(trainer);
@@ -74,7 +73,7 @@ namespace MyMLAppML.ConsoleApp
             // Cross-Validate with single dataset (since we don't have two datasets, one for training and for evaluate)
             // in order to evaluate and get the model's accuracy metrics
             Console.WriteLine("=============== Cross-validating to get model's accuracy metrics ===============");
-            var crossValidationResults = mlContext.MulticlassClassification.CrossValidate(trainingDataView, trainingPipeline, numberOfFolds: 5, labelColumnName: "Sentiment");
+            var crossValidationResults = mlContext.MulticlassClassification.CrossValidate(trainingDataView, trainingPipeline, numberOfFolds: 5, labelColumnName: "FSentiment");
             PrintMulticlassClassificationFoldsAverageMetrics(crossValidationResults);
         }
 
