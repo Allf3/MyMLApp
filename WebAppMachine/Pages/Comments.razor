@@ -1,0 +1,85 @@
+﻿@page "/Comments"
+@inject IMachineLearningService _service
+
+<div class="container">
+    <div class="row" style="justify-content: center;">
+        @foreach (var item in CommentList)
+        {
+            <div class="col-3 Box @(item.Toxic == true ? "NegativeBox" : "PositiveBox")">
+                <div>
+                    <h3>@item.PostedDate</h3>
+                </div>
+                <div>
+                    <span>
+                        @item.Name
+                    </span>
+                    <br />
+                    <span>
+                        @item.Text
+                    </span>
+                </div>
+                <hr />
+                <div style="text-align: center">
+                    @if (item.Toxic)
+                    {
+                        <small style="color: darkred">
+                            This Comment is Negative
+                        </small>
+                    }
+                    else
+                    {
+                        <small>
+                            This Comment is Positive
+                        </small>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <hr />
+    <span>@Message</span>
+    <hr />
+    <div class="row">
+        <EditForm Model="@MyComment" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label class="form-text">Name</label>
+                <InputText placeholder="Enter Name" class="form-control" @bind-Value="@MyComment.Name"></InputText>
+            </div>
+            <div class="form-group">
+                <label class="form-text">Comment</label>
+                <InputText placeholder="Write your comment...." class="form-control" @bind-Value="@MyComment.Text"></InputText>
+            </div>
+            <input type="submit" class="btn btn-primary" />
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+
+    public bool filter;
+
+    public string Message { get; set; }
+
+    public Comment MyComment { get; set; } = new Comment();
+
+    public List<Comment> CommentList { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CommentList = _service.ListComments();
+        Message = "Comments has been loaded.";
+        base.OnInitialized();
+    }
+
+    public void HandleValidSubmit()
+    {
+        _service.CreateComment(MyComment);
+        CommentList = _service.ListComments();
+        MyComment = new Comment();
+    }
+
+}
