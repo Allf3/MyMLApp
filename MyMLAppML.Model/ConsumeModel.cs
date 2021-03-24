@@ -27,7 +27,7 @@ namespace MyMLAppML.Model
             MLContext mlContext = new MLContext();
 
             // Load model & create prediction engine
-            string modelPath = @"C:\Users\Allf3\AppData\Local\Temp\MLVSTools\MyMLAppML\MyMLAppML.Model\MLModel.zip";
+            string modelPath = @"C:\Users\Allf3\Desktop\model\MLModel.zip";
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 

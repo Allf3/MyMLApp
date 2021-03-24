@@ -24,7 +24,7 @@ namespace MachineLearningLayer.MachineLearningService
                 SentimentText = comment.Text
             };
 
-            var result = ConsumeModel.Predict(input);
+            ModelOutput result = ConsumeModel.Predict(input);
 
             bool sentimentresult = result.Prediction == "1" ? true : false;
 
