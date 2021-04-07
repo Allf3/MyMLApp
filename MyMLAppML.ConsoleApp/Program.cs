@@ -23,8 +23,8 @@ namespace MyMLAppML.ConsoleApp
                 Condition = 3F,
                 Sqft_above = 1340F,
                 Sqft_basement = 0F,
-                Yr_built = 1955F,
-                Yr_renovated = 2005F,
+                Yr_built = DateTime.Parse("00/00/1995"),
+                Yr_renovated = DateTime.Parse("00/00/2005"),
                 City = @"Shoreline",
                 Statezip = @"WA 98133",
             };

@@ -75,7 +75,7 @@
                         <select class="form-control" @bind="@MyInputs.Bathrooms">
                             @for (int i = 1; i < 6; i++)
                             {
-                                <option class="form-control" value="i">
+                                <option value="i">
                                     @i
                                 </option>
                             }
@@ -86,7 +86,7 @@
                         <select class="form-control" @bind="@MyInputs.Floors">
                             @for (int i = 1; i < 5; i++)
                             {
-                                <option class="form-control" value="i">
+                                <option value="i">
                                     @i
                                 </option>
                             }
@@ -120,24 +120,24 @@
                 <div class="row">
                     <div class="col-4">
                         <label class="form-text">Udsigt til Vandet?</label>
-                        <label class="form-text">Nej: <InputRadio SelectedValue="0F" @bind-Value="@MyInputs.Waterfront" /> </label>
-                        <label class="form-text">Ja: <InputRadio SelectedValue="1F" @bind-Value="@MyInputs.Waterfront" /> </label>
+                        <label class="form-text">Nej: <InputRadio SelectedValue="0" @bind-Value="MyInputs.Waterfront" /> </label>
+                        <label class="form-text">Ja: <InputRadio SelectedValue="1" @bind-Value="MyInputs.Waterfront" /> </label>
                     </div>
                     <div class="col-4">
                         <label class="form-text">Bedømmelse af udsigt.</label>
-                        <label class="form-text">Ingen: <InputRadio SelectedValue="1F" @bind-Value="@MyInputs.View" /></label>
+                        <label class="form-text">Ingen: <InputRadio SelectedValue="1" @bind-Value="MyInputs.View" /></label>
 
-                        <label class="form-text">Okay: <InputRadio SelectedValue="2F" @bind-Value="@MyInputs.View" /></label>
-                        <label class="form-text">God: <InputRadio SelectedValue="3F" @bind-Value="@MyInputs.View" /></label>
-                        <label class="form-text">Perfekt: <InputRadio SelectedValue="4F" @bind-Value="@MyInputs.View" /></label>
+                        <label class="form-text">Okay: <InputRadio SelectedValue="2" @bind-Value="MyInputs.View" /></label>
+                        <label class="form-text">God: <InputRadio SelectedValue="3" @bind-Value="MyInputs.View" /></label>
+                        <label class="form-text">Perfekt: <InputRadio SelectedValue="4" @bind-Value="MyInputs.View" /></label>
                     </div>
                     <div class="col-4">
                         <label class="form-text">Stand</label>
-                        <label class="form-text">Dårlig: <InputRadio SelectedValue="1F" @bind-Value="@MyInputs.Condition" /></label>
-                        <label class="form-text">Okay: <InputRadio SelectedValue="2F" @bind-Value="@MyInputs.Condition" /></label>
-                        <label class="form-text">Tilfredsstillende: <InputRadio SelectedValue="3F" @bind-Value="@MyInputs.Condition" /></label>
-                        <label class="form-text">God: <InputRadio SelectedValue="4F" @bind-Value="@MyInputs.Condition" /></label>
-                        <label class="form-text">Som Ny: <InputRadio SelectedValue="5F" @bind-Value="@MyInputs.Condition" /></label>
+                        <label class="form-text">Dårlig: <InputRadio SelectedValue="1" @bind-Value="MyInputs.Condition" /></label>
+                        <label class="form-text">Okay: <InputRadio SelectedValue="2" @bind-Value="MyInputs.Condition" /></label>
+                        <label class="form-text">Tilfredsstillende: <InputRadio SelectedValue="3" @bind-Value="MyInputs.Condition" /></label>
+                        <label class="form-text">God: <InputRadio SelectedValue="4" @bind-Value="MyInputs.Condition" /></label>
+                        <label class="form-text">Som Ny: <InputRadio SelectedValue="5" @bind-Value="MyInputs.Condition" /></label>
                     </div>
                 </div>
             </div>
@@ -151,9 +151,9 @@
 
 @code {
 
-    int zoom = 3;
+        int zoom = 3;
 
-    string clickedPosition = "";
+        string clickedPosition = "";
 
     public string Status { get; set; }
 
@@ -161,7 +161,7 @@
 
     protected override void OnInitialized()
     {
-        MyInputs = new ModelInput();
+        MyInputs = new ModelInput() { Yr_built = DateTime.Now, Yr_renovated = DateTime.Now };
         base.OnInitialized();
     }
 
