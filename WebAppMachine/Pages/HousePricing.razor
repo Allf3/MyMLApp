@@ -1,0 +1,185 @@
+﻿@page "/HousePricing"
+@inject IHousePricingService _service
+
+<h3>HousePricing</h3>
+
+<div class="container">
+    <div class="row">
+        <h3>Være opmærksom på du skal tage udgangs punkt i du bor i USA</h3>
+    </div>
+    <hr />
+
+    <div class="row jumbotron">
+        <EditForm Model="@MyInputs" OnInvalidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <RadzenGoogleMap Style="height: 600px;" Zoom="@zoom" Center="@(new GoogleMapPosition() { Lat = 42.563749664214846, Lng = -101.79382236695027})" MapClick="@OnMapClick">
+
+                        </RadzenGoogleMap>
+                        <br />
+                        @clickedPosition
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-text">VejNavn:</label>
+                                    <InputText class="form-control" placeholder="18810 Densmore Ave N" @bind-Value="@MyInputs.Street"></InputText>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-text">By:</label>
+                                    <InputText class="form-control" placeholder="Shoreline" @bind-Value="@MyInputs.City"></InputText>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-text">PostNummer:</label>
+                                    <InputText class="form-control" placeholder="WA 98133" @bind-Value="@MyInputs.Statezip"></InputText>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="form-text">Opbygget Dato</label>
+                        <InputDate @bind-Value="MyInputs.Yr_built" class="form-control"></InputDate>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-text">Renovering dato</label>
+                        <InputDate @bind-Value="MyInputs.Yr_renovated" class="form-control"></InputDate>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-3">
+                        <label class="form-text">Soveværelser</label>
+                        <select class="form-control" @bind="@MyInputs.Bedrooms">
+                            @for (int i = 1; i < 6; i++)
+                            {
+                                <option value="i">
+                                    @i
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-text">Badeværelser</label>
+                        <select class="form-control" @bind="@MyInputs.Bathrooms">
+                            @for (int i = 1; i < 6; i++)
+                            {
+                                <option class="form-control" value="i">
+                                    @i
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-text">Etagere</label>
+                        <select class="form-control" @bind="@MyInputs.Floors">
+                            @for (int i = 1; i < 5; i++)
+                            {
+                                <option class="form-control" value="i">
+                                    @i
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-3">
+                        <label class="form-text">Total Areal i m2</label>
+                        <input type="number" placeholder="Indtast m2" class="form-control" @bind-value="@MyInputs.Sqft_lot" />
+                    </div>
+                    <div class="col-3">
+                        <label class="form-text">Bolig Areal i m2</label>
+                        <input type="number" placeholder="Indtast m2" class="form-control" @bind-value="@MyInputs.Sqft_living" />
+                    </div>
+                    <div class="col-3">
+                        <label class="form-text">Loft i m2</label>
+                        <input type="number" placeholder="Indtast m2" class="form-control" @bind-value="@MyInputs.Sqft_above" />
+                    </div>
+                    <div class="col-3">
+                        <label class="form-text">Kælder i m2</label>
+                        <input type="number" placeholder="Indtast m2" class="form-control" @bind-value="@MyInputs.Sqft_basement" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="form-text">Udsigt til Vandet?</label>
+                        <label class="form-text">Nej: <InputRadio SelectedValue="0F" @bind-Value="@MyInputs.Waterfront" /> </label>
+                        <label class="form-text">Ja: <InputRadio SelectedValue="1F" @bind-Value="@MyInputs.Waterfront" /> </label>
+                    </div>
+                    <div class="col-4">
+                        <label class="form-text">Bedømmelse af udsigt.</label>
+                        <label class="form-text">Ingen: <InputRadio SelectedValue="1F" @bind-Value="@MyInputs.View" /></label>
+
+                        <label class="form-text">Okay: <InputRadio SelectedValue="2F" @bind-Value="@MyInputs.View" /></label>
+                        <label class="form-text">God: <InputRadio SelectedValue="3F" @bind-Value="@MyInputs.View" /></label>
+                        <label class="form-text">Perfekt: <InputRadio SelectedValue="4F" @bind-Value="@MyInputs.View" /></label>
+                    </div>
+                    <div class="col-4">
+                        <label class="form-text">Stand</label>
+                        <label class="form-text">Dårlig: <InputRadio SelectedValue="1F" @bind-Value="@MyInputs.Condition" /></label>
+                        <label class="form-text">Okay: <InputRadio SelectedValue="2F" @bind-Value="@MyInputs.Condition" /></label>
+                        <label class="form-text">Tilfredsstillende: <InputRadio SelectedValue="3F" @bind-Value="@MyInputs.Condition" /></label>
+                        <label class="form-text">God: <InputRadio SelectedValue="4F" @bind-Value="@MyInputs.Condition" /></label>
+                        <label class="form-text">Som Ny: <InputRadio SelectedValue="5F" @bind-Value="@MyInputs.Condition" /></label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+
+    int zoom = 3;
+
+    string clickedPosition = "";
+
+    public string Status { get; set; }
+
+    public ModelInput MyInputs { get; set; }
+
+    protected override void OnInitialized()
+    {
+        MyInputs = new ModelInput();
+        base.OnInitialized();
+    }
+
+
+    public void HandleValidSubmit()
+    {
+        if (_service.CreateHousePredict(MyInputs) != 0)
+        {
+            Status = "Your Houses Price has been predicted";
+        }
+        else
+        {
+            Status = "Something went wrong trying to determine your house";
+        }
+    }
+
+    void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        clickedPosition = $"Map clicked LAY: {args.Position.Lat}, LNG: {args.Position.Lng}";
+    }
+}

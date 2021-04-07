@@ -19,23 +19,23 @@ namespace MachineLearningLayer.MachineLearningService
 
         public bool CreateComment(Comment comment)
         {
-            ModelInput input = new ModelInput()
-            {
-                SentimentText = comment.Text
-            };
+            //ModelInput input = new ModelInput()
+            //{
+            //    SentimentText = comment.Text
+            //};
 
-            ModelOutput result = ConsumeModel.Predict(input);
+            //ModelOutput result = ConsumeModel.Predict(input);
 
-            bool sentimentresult = result.Prediction == "1" ? true : false;
+            //bool sentimentresult = result.Prediction == "1" ? true : false;
 
-            comment.Toxic = sentimentresult;
-            comment.PostedDate = DateTime.Now;
+            //comment.Toxic = sentimentresult;
+            //comment.PostedDate = DateTime.Now;
 
-            _context.Comments.Add(comment);
+            //_context.Comments.Add(comment);
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
 
-            return sentimentresult;
+            return true;
         }
 
         public List<Comment> ListComments()

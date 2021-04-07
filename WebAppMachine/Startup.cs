@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using WebAppMachine.Data;
 using DataAccesLayer;
 using MachineLearningLayer.MachineLearningService;
+using MachineLearningLayer;
+using MachineLearningLayer.HousePricingService;
 
 namespace WebAppMachine
 {
@@ -34,6 +36,7 @@ namespace WebAppMachine
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<IMachineLearningService, MachineLearningService>();
+            services.AddScoped<IHousePricingService, HousePricingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,6 +16,8 @@ namespace DataAccesLayer
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<House> Houses { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
