@@ -4,14 +4,16 @@ using DataAccesLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccesLayer.Migrations
 {
     [DbContext(typeof(MachineContext))]
-    partial class MachineContextModelSnapshot : ModelSnapshot
+    [Migration("20210407220242_entitytest")]
+    partial class entitytest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace DataAccesLayer.Migrations
                         {
                             ID = 1,
                             Name = "Allf3",
-                            PostedDate = new DateTime(2021, 4, 8, 0, 4, 6, 894, DateTimeKind.Local).AddTicks(4975),
+                            PostedDate = new DateTime(2021, 4, 8, 0, 2, 42, 570, DateTimeKind.Local).AddTicks(2884),
                             Text = "You are just a degenerate retard",
                             Toxic = true
                         });

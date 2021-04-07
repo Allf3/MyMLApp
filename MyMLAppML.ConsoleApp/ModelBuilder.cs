@@ -45,12 +45,12 @@ namespace MyMLAppML.ConsoleApp
         public static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations 
-            var dataProcessPipeline = mlContext.Transforms.Categorical.OneHotEncoding(new[] { new InputOutputColumnPair("date", "date"), new InputOutputColumnPair("city", "city"), new InputOutputColumnPair("statezip", "statezip") })
-                                      .Append(mlContext.Transforms.Concatenate("Features", new[] { "date", "city", "statezip", "bedrooms", "bathrooms", "sqft_living", "sqft_lot", "floors", "waterfront", "view", "condition", "sqft_above", "sqft_basement", "yr_built", "yr_renovated" }))
+            var dataProcessPipeline = mlContext.Transforms.Categorical.OneHotEncoding(new[] { new InputOutputColumnPair("city", "city"), new InputOutputColumnPair("statezip", "statezip") })
+                                      .Append(mlContext.Transforms.Concatenate("Features", new[] { "city", "statezip", "bedrooms", "bathrooms", "sqft_living", "sqft_lot", "floors", "waterfront", "view", "condition", "sqft_above", "sqft_basement", "yr_built", "yr_renovated" }))
                                       .Append(mlContext.Transforms.NormalizeMinMax("Features", "Features"))
                                       .AppendCacheCheckpoint(mlContext);
             // Set the training algorithm 
-            var trainer = mlContext.Regression.Trainers.LbfgsPoissonRegression(new LbfgsPoissonRegressionTrainer.Options() { L2Regularization = 0.567426f, L1Regularization = 0.0216158f, OptimizationTolerance = 1E-07f, HistorySize = 20, MaximumNumberOfIterations = 1330787367, InitialWeightsDiameter = 0.7697086f, DenseOptimizer = true, LabelColumnName = "price", FeatureColumnName = "Features" });
+            var trainer = mlContext.Regression.Trainers.LbfgsPoissonRegression(new LbfgsPoissonRegressionTrainer.Options() { L2Regularization = 0.1577868f, L1Regularization = 0.6774087f, OptimizationTolerance = 1E-07f, HistorySize = 20, MaximumNumberOfIterations = 1295031099, InitialWeightsDiameter = 0.728241f, DenseOptimizer = true, LabelColumnName = "price", FeatureColumnName = "Features" });
 
             var trainingPipeline = dataProcessPipeline.Append(trainer);
 

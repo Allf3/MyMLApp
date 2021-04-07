@@ -17,6 +17,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-xl-6">
+                        <h2>Test</h2>
                         <RadzenGoogleMap Style="height: 600px;" Zoom="@zoom" Center="@(new GoogleMapPosition() { Lat = 42.563749664214846, Lng = -101.79382236695027})" MapClick="@OnMapClick">
 
                         </RadzenGoogleMap>
@@ -26,10 +27,6 @@
                     <div class="col-xl-6">
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-12">
-                                    <label class="form-text">VejNavn:</label>
-                                    <InputText class="form-control" placeholder="18810 Densmore Ave N" @bind-Value="@MyInputs.Street"></InputText>
-                                </div>
                                 <div class="col-12">
                                     <label class="form-text">By:</label>
                                     <InputText class="form-control" placeholder="Shoreline" @bind-Value="@MyInputs.City"></InputText>
@@ -47,12 +44,12 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-6">
-                        <label class="form-text">Opbygget Dato</label>
-                        <InputDate @bind-Value="MyInputs.Yr_built" class="form-control"></InputDate>
+                        <label class="form-text">Opbygget Årstal</label>
+                        <input type="number" @bind="@MyInputs.Yr_built" class="form-control"/>
                     </div>
                     <div class="col-6">
-                        <label class="form-text">Renovering dato</label>
-                        <InputDate @bind-Value="MyInputs.Yr_renovated" class="form-control"></InputDate>
+                        <label class="form-text">Renovering Årstal</label>
+                        <input type="number" @bind="@MyInputs.Yr_renovated" class="form-control" />
                     </div>
                 </div>
             </div>
@@ -161,7 +158,7 @@
 
     protected override void OnInitialized()
     {
-        MyInputs = new ModelInput() { Yr_built = DateTime.Now, Yr_renovated = DateTime.Now };
+        MyInputs = new ModelInput() { };
         base.OnInitialized();
     }
 
