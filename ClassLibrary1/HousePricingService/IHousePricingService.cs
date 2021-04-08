@@ -9,5 +9,6 @@ namespace MachineLearningLayer
     public interface IHousePricingService
     {
         int CreateHousePredict(ModelInput modeldata);
+        List<House> houses();
     }
 }

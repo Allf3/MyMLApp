@@ -1,0 +1,44 @@
+﻿@page "/HouseList"
+@inject IHousePricingService _service
+
+<div class="container">
+    <div class="row">
+        @foreach (House house in Houses)
+        {
+            <div class="jumbotron col-3">
+                <h3>@house.Street</h3>
+                <br />
+                <strong>Predicted Price: @house.PredictedScore</strong>
+                <div class="row">
+                    <div class="col-12">
+                        <p>Bathrooms: @house.Bathrooms</p>
+                        <p>Bedrooms: @house.Bedrooms</p>
+                        <p>Floors: @house.Floors</p>
+                    </div>
+                    <div class="col-12">
+                        <p>Areal: @house.Sqft_lot sqft</p>
+                        <p>Bolig Areal: @house.Sqft_living sqft</p>
+                        <p>Loft: @house.Sqft_above sqft</p>
+                        <p>Kælder: @house.Sqft_basement sqft</p>
+                    </div>
+                    <div class="col-12">
+                        <p>Udsigt: @house.View</p>
+                        <p>Vandudsigt: @house.Waterfront</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+@code {
+
+    public List<House> Houses { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Houses = _service.houses();
+        base.OnInitialized();
+    }
+}

@@ -10,7 +10,7 @@
     <hr />
 
     <div class="row jumbotron">
-        <EditForm Model="@MyInputs" OnInvalidSubmit="@HandleValidSubmit">
+        <EditForm Model="@MyInputs" OnSubmit="HandleValidSubmit">
             <DataAnnotationsValidator />
             <ValidationSummary />
 
@@ -35,6 +35,10 @@
                                     <label class="form-text">PostNummer:</label>
                                     <InputText class="form-control" placeholder="WA 98133" @bind-Value="@MyInputs.Statezip"></InputText>
                                 </div>
+                                <div class="col-12">
+                                    <label class="form-text">Vej:</label>
+                                    <InputText class="form-control" placeholder="18810 Densmore Ave N" @bind-Value="@MyInputs.Street"></InputText>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,36 +62,18 @@
                 <div class="row">
                     <div class="col-3">
                         <label class="form-text">Soveværelser</label>
-                        <select class="form-control" @bind="@MyInputs.Bedrooms">
-                            @for (int i = 1; i < 6; i++)
-                            {
-                                <option value="i">
-                                    @i
-                                </option>
-                            }
-                        </select>
+                        <RadzenDropDown TValue="float" Data="Options" @bind-Value="MyInputs.Bedrooms">
+                        </RadzenDropDown>
                     </div>
                     <div class="col-3">
                         <label class="form-text">Badeværelser</label>
-                        <select class="form-control" @bind="@MyInputs.Bathrooms">
-                            @for (int i = 1; i < 6; i++)
-                            {
-                                <option value="i">
-                                    @i
-                                </option>
-                            }
-                        </select>
+                        <RadzenDropDown TValue="float" Data="Options" @bind-Value="MyInputs.Bathrooms">
+                        </RadzenDropDown>
                     </div>
                     <div class="col-3">
                         <label class="form-text">Etagere</label>
-                        <select class="form-control" @bind="@MyInputs.Floors">
-                            @for (int i = 1; i < 5; i++)
-                            {
-                                <option value="i">
-                                    @i
-                                </option>
-                            }
-                        </select>
+                        <RadzenDropDown TValue="float" Data="Options" @bind-Value="MyInputs.Floors">
+                        </RadzenDropDown>
                     </div>
                 </div>
             </div>
@@ -123,7 +109,6 @@
                     <div class="col-4">
                         <label class="form-text">Bedømmelse af udsigt.</label>
                         <label class="form-text">Ingen: <InputRadio SelectedValue="1" @bind-Value="MyInputs.View" /></label>
-
                         <label class="form-text">Okay: <InputRadio SelectedValue="2" @bind-Value="MyInputs.View" /></label>
                         <label class="form-text">God: <InputRadio SelectedValue="3" @bind-Value="MyInputs.View" /></label>
                         <label class="form-text">Perfekt: <InputRadio SelectedValue="4" @bind-Value="MyInputs.View" /></label>
@@ -140,6 +125,9 @@
             </div>
             <div>
                 <input type="submit" class="btn btn-primary" />
+                <span>
+                    @Status
+                </span>
             </div>
         </EditForm>
     </div>
@@ -148,9 +136,11 @@
 
 @code {
 
-        int zoom = 3;
+    int zoom = 3;
 
-        string clickedPosition = "";
+    string clickedPosition = "";
+
+    List<float> Options = new List<float>();
 
     public string Status { get; set; }
 
@@ -158,6 +148,11 @@
 
     protected override void OnInitialized()
     {
+        Options.Add(1f);
+        Options.Add(2f);
+        Options.Add(3f);
+        Options.Add(4f);
+        Options.Add(5f);
         MyInputs = new ModelInput() { };
         base.OnInitialized();
     }
@@ -167,7 +162,8 @@
     {
         if (_service.CreateHousePredict(MyInputs) != 0)
         {
-            Status = "Your Houses Price has been predicted";
+            Status = "Your House Price has been predicted";
+            MyInputs = new ModelInput() { };
         }
         else
         {

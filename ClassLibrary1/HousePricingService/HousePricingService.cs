@@ -4,6 +4,7 @@ using System.Text;
 using DataAccesLayer;
 using DataAccesLayer.Entity;
 using MyMLAppML.Model;
+using System.Linq;
 
 namespace MachineLearningLayer.HousePricingService
 {
@@ -31,8 +32,8 @@ namespace MachineLearningLayer.HousePricingService
                 Waterfront = modeldata.Waterfront,
                 View = modeldata.View,
                 Condition = modeldata.Condition,
-                Sqft_above = modeldata.Sqft_above,
-                Sqft_basement = modeldata.Sqft_basement,
+                Sqft_above = modeldata.Sqft_above / 0.0929f,
+                Sqft_basement = modeldata.Sqft_basement / 0.0929f,
                 Yr_built = modeldata.Yr_built,
                 Yr_renovated = modeldata.Yr_renovated,
                 City = modeldata.City,
@@ -45,6 +46,11 @@ namespace MachineLearningLayer.HousePricingService
             int result = _context.SaveChanges();
 
             return result;
+        }
+
+        public List<House> houses()
+        {
+            return _context.Houses.ToList();
         }
     }
 }
